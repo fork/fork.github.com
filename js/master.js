@@ -1,28 +1,35 @@
 jQuery(function($) {
-	var loader = $('#html-loader').contents().get(0);
+	var loader = $('#html-loader');
 
-	console.log(loader);
+	function write(data) {
+		var d = loader.contents().get(0);
+		d.open();
+		if (data) { d.write(data); }
+		d.close();
+	}
+	write();
+
 	// TODO generate contents
 	// $('#contents')
-	$('.description').each(function() {
-		var desc = $(this)
-		  , href = desc.parent().find('h3 a').attr('href');
 
-		console.log(href);
+	$('.description').each(function() {
+		var $$   = $(this)
+		  , href = $$.parent().find('h3 a').attr('href');
 
 		$.get(href).done(function(data) {
-			var description;
-			loader.open();
-			loader.write(data);
-			loader.close();
-			console.log(data);
-			console.log(loader.innerHTML);
-			description = $('meta[name="description"]', loader).text();
-			desc.text(description);
+			var desc;
+
+			loader.one('load', function() {
+				desc = $(this).contents().find('meta[name="description"]');
+				$$.text(desc.attr('content'));
+			});
+			write(data);
 		});
 	});
+
 	$('li').click(function(e) {
 		if (e.target.tagName != 'A') { $(this).find('a').click(); }
 		else { return false; } // disabled for now...
 	});
+
 });
