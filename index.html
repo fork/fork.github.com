@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <meta charset="utf-8" />
 <title>FORK UNSTABLE MEDIA | DELIVERY</title>
+<link rel="stylesheet" href="/css/master.css" type="text/css" media="screen" title="Master Stylesheet" charset="utf-8"/>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
 
 <h1>FORK UNSTABLE MEDIA</h1>
@@ -10,25 +11,43 @@
 <h2>JavaScript</h2>
 <ul>
 	<li>
-		<h3><a href="#">Anywhere Video</a></h3>
+		<h3><a href="/anywhere-video">Anywhere Video</a></h3>
 		<p class="description"></p>
 	</li>
 	<li>
-		<h3><a href="#">Vizard</a></h3>
+		<h3><a href="/vizard">Vizard</a></h3>
 		<p class="description"></p>
 	</li>
 	<li>
-		<h3><a href="#">WebDAV</a></h3>
+		<h3><a href="/webdav">WebDAV</a></h3>
 		<p class="description"></p>
 	</li>
 	<li>
-		<h3><a href="#">Dullahan</a></h3>
+		<h3><a href="/dullahan">Dullahan</a></h3>
 		<p class="description"></p>
 	</li>
 </ul>
 
 <script type="text/javascript" charset="utf-8">
 	jQuery(function($) {
-		$('#contents')
+		// TODO generate contents
+		// $('#contents')
+		$('.description').each(function() {
+			var desc = $(this)
+			  , href = desc.parent().find('a').href;
+			
+			// TODO extract description
+			$.get(href).done(function(data) {
+				var html        = document.implementation.createDocument("http://www.w3.org/1999/xhtml", "html", null)
+				  , fragment    = html.parseFragment(data, false, null, html)
+				  , description = $('meta[name="description"]', fragment).text();
+				
+				desc.text(description);
+			});
+		});
+		$('li').click(function(e) {
+			if (e.target.tagName != 'A') { $(this).find('a').click(); }
+			else { return false; } // disabled for now...
+		});
 	});
 </script>
