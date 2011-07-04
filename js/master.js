@@ -3,9 +3,9 @@ jQuery(function($) {
 	// $('#contents')
 	$('.description').each(function() {
 		var desc = $(this)
-		  , href = desc.parent().find('h3 a').href;
+		  , href = desc.parent().find('h3 a').attr('href');
 
-		console.log(href);
+		console.log(desc.parent(), desc.parent().find('h3 a'), href);
 
 		// TODO extract description
 		$.get(href).done(function(data) {
