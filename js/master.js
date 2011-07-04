@@ -1,18 +1,23 @@
 jQuery(function($) {
+	var loader = $('#html-loader').contents().get(0);
+
+	console.log(loader);
 	// TODO generate contents
 	// $('#contents')
 	$('.description').each(function() {
 		var desc = $(this)
 		  , href = desc.parent().find('h3 a').attr('href');
 
-		console.log(desc.parent(), desc.parent().find('h3 a'), href);
+		console.log(href);
 
-		// TODO extract description
 		$.get(href).done(function(data) {
-			var html        = document.implementation.createDocument("http://www.w3.org/1999/xhtml", "html", null)
-			  , fragment    = html.parseFragment(data, false, null, html)
-			  , description = $('meta[name="description"]', fragment).text();
-			
+			var description;
+			loader.open();
+			loader.write(data);
+			loader.close();
+			console.log(data);
+			console.log(loader.innerHTML);
+			description = $('meta[name="description"]', loader).text();
 			desc.text(description);
 		});
 	});
