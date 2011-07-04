@@ -28,26 +28,4 @@
 	</li>
 </ul>
 
-<script type="text/javascript" charset="utf-8">
-	jQuery(function($) {
-		// TODO generate contents
-		// $('#contents')
-		$('.description').each(function() {
-			var desc = $(this)
-			  , href = desc.parent().find('a').href;
-			
-			// TODO extract description
-			$.get(href).done(function(data) {
-				var html        = document.implementation.createDocument("http://www.w3.org/1999/xhtml", "html", null)
-				  , fragment    = html.parseFragment(data, false, null, html)
-				  , description = $('meta[name="description"]', fragment).text();
-				
-				desc.text(description);
-			});
-		});
-		$('li').click(function(e) {
-			if (e.target.tagName != 'A') { $(this).find('a').click(); }
-			else { return false; } // disabled for now...
-		});
-	});
-</script>
+<script src="/js/master.js" type="text/javascript" charset="utf-8"></script>
